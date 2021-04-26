@@ -28,23 +28,12 @@ namespace MailClient.Service.IMAP
             try {
                 using (Imap imap = new Imap())
                 {
+                    bool isConnected = false;
                     EncryptionProcess(_mailRequestModel.EncryptionType, imap);
-
                     imap.UseBestLogin(_mailRequestModel.Username, _mailRequestModel.Password);
-                    imap.SelectInbox();
-
-                    List<long> uids = imap.Search(Flag.Unseen);
-
-                    foreach (long uid in uids)
-                    {
-                        var eml = imap.GetMessageByUID(uid);
-                        IMail email = new MailBuilder().CreateFromEml(eml);
-
-                        Console.WriteLine(email.Subject);
-                    }
-
+                    isConnected = imap.Connected;
                     imap.Close();
-                    return Task.FromResult(true);
+                    return Task.FromResult(isConnected);
                 }
             } catch (Exception ex) 
             {
