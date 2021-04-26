@@ -10,8 +10,8 @@ namespace MailClient.Model
         public EncryptionType EncryptionType { get; set; }
         public int Port { get; set; }
         public string Server { get; set; } = "imap.gmail.com";
-        public string Username { get; set; } = "clydedeveloperburgos@gmail.com";
-        public string Password { get; set; } = "clerick100390";
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 
 
