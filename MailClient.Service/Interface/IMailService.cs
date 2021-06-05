@@ -10,7 +10,7 @@ namespace MailClient.Service.Interface
     {
         void SetProperties(MailRequestModel model);
         Task<bool> Connect();
-        Task DownloadHeader();
+        Task<List<MailResponseModel>> DownloadHeader();
         Task DownloadBody();
     }
 }

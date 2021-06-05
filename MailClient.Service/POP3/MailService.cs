@@ -49,7 +49,7 @@ namespace MailClient.Service.POP3
             throw new NotImplementedException();
         }
 
-        public Task DownloadHeader()
+        public Task<List<MailResponseModel>> DownloadHeader()
         {
             throw new NotImplementedException();
         }

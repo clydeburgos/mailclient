@@ -17,10 +17,10 @@ namespace MailClient.Model
 
     public class MailResponseModel
     {
-        public string To { get; set; }
-
+        public string UID { get; set; }
+        public List<string> To { get; set; }
         public DateTime Date { get; set; }
-        public string From { get; set; }
+        public List<string> From { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
     }

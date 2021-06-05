@@ -48,6 +48,27 @@ namespace MailClient
 
         public void StartBtn_Click(object sender, RoutedEventArgs e)
         {
+            MailRequestModel mailRequestModel = StructureMailRequestPayload();
+            var service = _mailFactory.GetMailService(mailRequestModel.ServerType);
+            service.SetProperties(mailRequestModel);
+
+            bool isConnected = service.Connect().Result;
+            if (isConnected)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    var envelopInfo = service.DownloadHeader();
+                    MailContentGrid.ItemsSource = envelopInfo.Result; 
+                });
+
+                //Task.Factory.StartNew(() =>
+                //{
+                //    service.DownloadBody();
+                //});
+            }
+        }
+
+        private MailRequestModel StructureMailRequestPayload() {
             MailRequestModel mailRequestModel = new MailRequestModel();
             mailRequestModel.ServerType = EnumHelper.GetEnumValue<MailServerType>(ServerTypeComboBox.SelectedValue.ToString());
             mailRequestModel.EncryptionType = EnumHelper.GetEnumValue<EncryptionType>(EncryptionTypeComboBox.SelectedValue.ToString());
@@ -55,11 +76,7 @@ namespace MailClient
             mailRequestModel.Username = UsernameText.Text;
             mailRequestModel.Password = PasswordText.Text;
             mailRequestModel.Port = int.Parse(PortTextBox.Text);
-
-            var service = _mailFactory.GetMailService(mailRequestModel.ServerType);
-
-            service.SetProperties(mailRequestModel);
-            service.Connect();
+            return mailRequestModel;
         }
     }
 }
